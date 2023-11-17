@@ -17,11 +17,11 @@ const Dashboard = () => {
     return (
         <>
             <button className='btn btn-outline-primary position-relative me-5 mt-3' onClick={() => setOpenmodel(!openmodel)}>{openmodel ? "Go Back" : "+ INVOICE"}</button>
-            {openmodel == false ?
+            {openmodel === false ?
                 <div className='d-flex flex-column justify-content-center align-items-start gap-3 w-75 mx-auto'>
                     <h2 className='mt-3'>Your Invoices</h2>
                     <div className='w-100 min-vh-100 mb-5 rounded bg-white d-flex flex-column justify-content-center align-items-center gap-3mx-auto'>
-                        {invoices != undefined && invoices.length > 0 ?
+                        {invoices !== undefined && invoices.length > 0 ?
                             (
                                 invoices.map((item, ind) => {
                                     return (

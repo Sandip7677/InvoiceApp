@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -128,14 +128,14 @@ const InvoiceModal = ({showModal,info, items,closeModal,id}) => {
                     <td className="fw-bold" style={{width: '100px'}}>SUBTOTAL</td>
                     <td className="text-end" style={{width: '100px'}}>{info.currency} {info.subTotal}</td>
                   </tr>
-                  {info.taxAmmount != 0.00 &&
+                  {info.taxAmmount !== 0.00 &&
                     <tr className="text-end">
                       <td></td>
                       <td className="fw-bold" style={{width: '100px'}}>TAX</td>
                       <td className="text-end" style={{width: '100px'}}>{info.currency} {info.taxAmmount}</td>
                     </tr>
                   }
-                  {info.discountAmmount != 0.00 &&
+                  {info.discountAmmount !== 0.00 &&
                     <tr className="text-end">
                       <td></td>
                       <td className="fw-bold" style={{width: '100px'}}>DISCOUNT</td>
