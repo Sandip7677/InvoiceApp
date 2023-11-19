@@ -11,6 +11,7 @@ const Dashboard = () => {
 
     const [openmodel, setOpenmodel] = useState(false);
     const [formdata, setFormdata] = useState();
+    const [iseditible,setIseditable]=useState(false);
     const dispatch = useDispatch();
     const invoices = useSelector((state) => state.invoices.invoices)
     useEffect(()=>{
@@ -41,7 +42,7 @@ const Dashboard = () => {
                                                         <strong>Amount:</strong> {item.total}
                                                         <br />
                                                     </Card.Text>
-                                                    <Button variant="primary" onClick={() => { setFormdata(item); setOpenmodel(true) }}>
+                                                    <Button variant="primary" onClick={() => { setFormdata(item); setOpenmodel(true);setIseditable(true) }}>
                                                         Edit
                                                     </Button>
                                                     <Button variant="danger" onClick={() => dispatch(deleteInvoice(item.id))} className='ms-2'>
@@ -57,7 +58,7 @@ const Dashboard = () => {
                         }
                     </div>
                 </div>
-                : <InvoiceForm formdata={formdata} />
+                : <InvoiceForm formdata={formdata} iseditible={iseditible}/>
             }
 
 

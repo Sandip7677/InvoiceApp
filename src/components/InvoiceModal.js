@@ -6,12 +6,12 @@ import Button from 'react-bootstrap/Button';
 import Table from 'react-bootstrap/Table';
 import Modal from 'react-bootstrap/Modal';
 import { BiPaperPlane, BiCloudDownload } from "react-icons/bi";
-import { addInvoice } from '../store/slices/invoicesSlice';
+import { addInvoice,deleteInvoice} from '../store/slices/invoicesSlice';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import { useDispatch } from 'react-redux';
 
-const InvoiceModal = ({showModal,info, items,closeModal,id}) => {
+const InvoiceModal = ({showModal,info, items,closeModal,id,iseditible}) => {
   const dispatch = useDispatch();
   const GenerateInvoice = () => {
     html2canvas(document.querySelector("#invoiceCapture")).then((canvas) => {
@@ -32,7 +32,7 @@ const InvoiceModal = ({showModal,info, items,closeModal,id}) => {
 
   const AddInvoiceTostore=()=>{
     const obj={
-      id: id?id:(new Date() + Math.floor(Math.random() * 999999)).toString(20),
+      id: (new Date() + Math.floor(Math.random() * 999999)).toString(20),
       currency:info.currency,
       dateOfIssue:info.dateOfIssue,
       invoiceNumber:info.invoiceNumber,
@@ -51,8 +51,15 @@ const InvoiceModal = ({showModal,info, items,closeModal,id}) => {
       discountAmount:info.discountAmount,
       items:[items]
     }
-
+    if(iseditible){
+      dispatch(addInvoice(obj));
+      dispatch(deleteInvoice(id));
+      alert("invoice updated go back to dashboard to view");
+  }else{
     dispatch(addInvoice(obj));
+    alert("invoice Created go back to dashboard to view");
+  }
+    
   }
 
   return (

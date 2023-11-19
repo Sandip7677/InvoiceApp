@@ -9,7 +9,7 @@ import InvoiceItem from './InvoiceItem';
 import InvoiceModal from './InvoiceModal';
 import InputGroup from 'react-bootstrap/InputGroup';
 
-const InvoiceForm = ({formdata}) => {
+const InvoiceForm = ({formdata,iseditible}) => {
   const [isOpen, setIsOpen] = useState(false);
   const [currency, setCurrency] = useState(formdata!==undefined?formdata?.currency:'$');
   const [dateOfIssue, setDateOfIssue] = useState(formdata!==undefined?formdata?.dateOfIssue:'');
@@ -274,6 +274,7 @@ const InvoiceForm = ({formdata}) => {
                 discountRate,
                 discountAmount,
               }}
+              iseditible={iseditible}
               items={items}
             />
             <Form.Group className="mb-3">
