@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import InvoiceForm from './InvoiceForm';
 import { useSelector } from 'react-redux';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -13,10 +13,17 @@ const Dashboard = () => {
     const [formdata, setFormdata] = useState();
     const dispatch = useDispatch();
     const invoices = useSelector((state) => state.invoices.invoices)
-    console.log(invoices);
+    useEffect(()=>{
+        setFormdata();
+    },[])
+    const handleRefresh = () => {
+        window.location.reload();
+      };
+    // console.log(invoices);
     return (
         <>
-            <button className='btn btn-outline-primary position-relative me-5 mt-3' onClick={() => setOpenmodel(!openmodel)}>{openmodel ? "Go Back" : "+ INVOICE"}</button>
+            <button className='btn btn-outline-primary position-relative me-5 mt-3' onClick={() => {setOpenmodel(!openmodel);
+                if(openmodel){handleRefresh()}}}>{openmodel ? "Go Back" : "+ INVOICE"}</button>
             {openmodel === false ?
                 <div className='d-flex flex-column justify-content-center align-items-start gap-3 w-75 mx-auto'>
                     <h2 className='mt-3'>Your Invoices</h2>

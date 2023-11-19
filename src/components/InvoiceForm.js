@@ -11,33 +11,33 @@ import InputGroup from 'react-bootstrap/InputGroup';
 
 const InvoiceForm = ({formdata}) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [currency, setCurrency] = useState(formdata?.currency?formdata?.currency:'$');
-  const [dateOfIssue, setDateOfIssue] = useState(formdata?.dateOfIssue?formdata?.dateOfIssue:'');
-  const [invoiceNumber, setInvoiceNumber] = useState(formdata?.invoiceNumber?formdata?.invoiceNumber:1);
-  const [billTo, setBillTo] = useState(formdata?.billTo?formdata?.billTo:'');
-  const [billToEmail, setBillToEmail] = useState(formdata?.billToEmail?formdata?.billToEmail:'');
-  const [billToAddress, setBillToAddress] = useState(formdata?.billToAddress?formdata?.billToAddress:'');
-  const [billFrom, setBillFrom] = useState(formdata?.billFrom?formdata?.billFrom:'');
-  const [billFromEmail, setBillFromEmail] = useState(formdata?.billFromEmail?formdata?.billFromEmail:'');
-  const [billFromAddress, setBillFromAddress] = useState(formdata?.billFromAddress?formdata?.billFromAddress:'');
-  const [notes, setNotes] = useState(formdata?.notes?formdata?.notes:'');
-  const [total, setTotal] = useState(formdata?.total?formdata?.total:'0.00');
-  const [subTotal, setSubTotal] = useState(formdata?.subTotal?formdata?.subTotal:'0.00');
-  const [taxRate, setTaxRate] = useState(formdata?.taxRate?formdata?.taxRate:'');
-  const [taxAmount, setTaxAmount] = useState(formdata?.taxAmount?formdata?.taxAmount:'0.00');
-  const [discountRate, setDiscountRate] = useState(formdata?.discountRate?formdata?.discountRate:'');
-  const [discountAmount, setDiscountAmount] = useState(formdata?.discountAmount?formdata?.discountAmount:'0.00');
-  const [items, setItems] = useState(formdata?.items?formdata?.items:[
-    {
-      id: 0,
-      name: '',
-      description: '',
-      price: '1.00',
-      quantity: 1,
-    },
-  ]);
+  const [currency, setCurrency] = useState(formdata!==undefined?formdata?.currency:'$');
+  const [dateOfIssue, setDateOfIssue] = useState(formdata!==undefined?formdata?.dateOfIssue:'');
+  const [invoiceNumber, setInvoiceNumber] = useState(formdata!==undefined?formdata?.invoiceNumber:1);
+  const [billTo, setBillTo] = useState(formdata!==undefined?formdata?.billTo:'');
+  const [billToEmail, setBillToEmail] = useState(formdata!==undefined?formdata?.billToEmail:'');
+  const [billToAddress, setBillToAddress] = useState(formdata!==undefined?formdata?.billToAddress:'');
+  const [billFrom, setBillFrom] = useState(formdata!==undefined?formdata?.billFrom:'');
+  const [billFromEmail, setBillFromEmail] = useState(formdata!==undefined?formdata?.billFromEmail:'');
+  const [billFromAddress, setBillFromAddress] = useState(formdata!==undefined?formdata?.billFromAddress:'');
+  const [notes, setNotes] = useState(formdata!==undefined?formdata?.notes:'');
+  const [total, setTotal] = useState(
+    formdata !== undefined ? parseFloat(formdata?.total)  : 0.00
+  );
+  const [subTotal, setSubTotal] = useState(
+    formdata !== undefined ? parseFloat(formdata?.subTotal) : 0.00
+  );
+  const [taxRate, setTaxRate] = useState(formdata!==undefined?formdata?.taxRate:'');
+  const [taxAmount, setTaxAmount] = useState(
+    formdata !== undefined ? parseFloat(formdata?.taxAmount): 0.00
+  );
+  const [discountRate, setDiscountRate] = useState(formdata!==undefined?formdata?.discountRate:'');
+  const [discountAmount, setDiscountAmount] = useState(
+    formdata !== undefined ? parseFloat(formdata?.discountAmount) : 0.00
+  );
+  const [items, setItems] = useState(formdata?.items && formdata.items.length>0?formdata.items[0]:[]);
   const id=formdata?.id?formdata?.id:"";
-
+  // console.log(items);
   useEffect(() => {
     handleCalculateTotal();
   }, []);
@@ -45,6 +45,7 @@ const InvoiceForm = ({formdata}) => {
   const handleRowDel = (itemToDelete) => {
     const updatedItems = items.filter((item) => item !== itemToDelete);
     setItems(updatedItems);
+    handleCalculateTotal();
   };
 
   const handleAddEvent = () => {
@@ -66,7 +67,7 @@ const InvoiceForm = ({formdata}) => {
       subTotalValue += parseFloat((parseFloat(item.price).toFixed(2) * item.quantity).toFixed(2));
     });
 
-    setSubTotal(parseFloat(subTotalValue).toFixed(2));
+    setSubTotal(parseFloat(Number(subTotalValue)).toFixed(2));
     setTaxAmount(parseFloat(subTotalValue * (taxRate / 100)).toFixed(2));
     setDiscountAmount(parseFloat(subTotalValue * (discountRate / 100)).toFixed(2));
     setTotal((subTotalValue - discountAmount + parseFloat(taxAmount)).toFixed(2));
@@ -240,7 +241,7 @@ const InvoiceForm = ({formdata}) => {
                   <span className="fw-bold">Total:
                   </span>
                   <span className="fw-bold">{currency}
-                    {total || 0}</span>
+                    {total }</span>
                 </div>
               </Col>
             </Row>
